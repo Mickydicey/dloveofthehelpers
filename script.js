@@ -1,5 +1,6 @@
 // ============================================
-// HOPE RISING FOUNDATION - REDESIGNED JS
+// DLOVEOFTHEHELPERS - JAVASCRIPT
+// With Flutterwave Payment Integration
 // ============================================
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -71,7 +72,6 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCounter();
     }
     
-    // Trigger counters when visible
     let countersAnimated = false;
     const counterObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -130,77 +130,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // === Notification System ===
-    function showNotification(message, type = 'success') {
-        const existing = document.querySelector('.notification');
-        if (existing) existing.remove();
-        
-        const notification = document.createElement('div');
-        notification.className = `notification ${type}`;
-        notification.innerHTML = `
-            <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
-            <span>${message}</span>
-            <button class="notification-close">&times;</button>
-        `;
-        
-        Object.assign(notification.style, {
-            position: 'fixed',
-            top: '100px',
-            right: '20px',
-            background: type === 'success' ? '#27ae60' : '#e74c3c',
-            color: 'white',
-            padding: '16px 24px',
-            borderRadius: '10px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
-            zIndex: '10000',
-            boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
-            animation: 'slideIn 0.3s ease',
-            maxWidth: '400px',
-            fontFamily: "'Poppins', sans-serif",
-            fontSize: '14px'
-        });
-        
-        if (!document.querySelector('#notificationStyles')) {
-            const style = document.createElement('style');
-            style.id = 'notificationStyles';
-            style.textContent = `
-                @keyframes slideIn {
-                    from { transform: translateX(100%); opacity: 0; }
-                    to { transform: translateX(0); opacity: 1; }
-                }
-                @keyframes slideOut {
-                    from { transform: translateX(0); opacity: 1; }
-                    to { transform: translateX(100%); opacity: 0; }
-                }
-                .notification-close {
-                    background: none;
-                    border: none;
-                    color: white;
-                    font-size: 20px;
-                    cursor: pointer;
-                    padding: 0 0 0 10px;
-                }
-            `;
-            document.head.appendChild(style);
-        }
-        
-        document.body.appendChild(notification);
-        
-        notification.querySelector('.notification-close').addEventListener('click', () => {
-            notification.style.animation = 'slideOut 0.3s ease';
-            setTimeout(() => notification.remove(), 300);
-        });
-        
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.style.animation = 'slideOut 0.3s ease';
-                setTimeout(() => notification.remove(), 300);
-            }
-        }, 5000);
-    }
-    
     // === Smooth Scroll ===
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
@@ -232,5 +161,261 @@ document.addEventListener('DOMContentLoaded', function() {
     const campaignsSection = document.querySelector('.campaigns');
     if (campaignsSection) progressObserver.observe(campaignsSection);
     
-    console.log('🌟 Hope Rising Foundation - Redesigned Website Loaded!');
+    console.log('💖 Dloveofthehelpers Website Loaded Successfully!');
 });
+
+
+// ============================================
+// DONATION MODAL & FLUTTERWAVE INTEGRATION
+// ============================================
+
+// Global variables for donation
+let currentDonationAmount = 25;
+let currentDonationPurpose = 'General Donation';
+
+// === Open Donation Modal ===
+function openDonateModal(amount, purpose) {
+    currentDonationAmount = amount;
+    currentDonationPurpose = purpose;
+    
+    document.getElementById('modalAmount').textContent = '$' + amount;
+    document.getElementById('modalPurpose').textContent = purpose;
+    
+    // Hide custom amount input, show payment methods
+    document.getElementById('customAmountInput').style.display = 'none';
+    document.getElementById('paymentMethods').style.display = 'block';
+    
+    // Remove any bank details that might be showing
+    const existingBank = document.querySelector('.bank-details-info');
+    if (existingBank) existingBank.remove();
+    
+    document.getElementById('donationModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+// === Open Custom Amount Modal ===
+function openCustomDonateModal() {
+    document.getElementById('modalAmount').textContent = '$0';
+    document.getElementById('modalPurpose').textContent = 'General Donation';
+    
+    // Show custom amount input, hide payment methods
+    document.getElementById('customAmountInput').style.display = 'block';
+    document.getElementById('paymentMethods').style.display = 'none';
+    
+    document.getElementById('donationModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+// === Update Custom Amount ===
+function updateCustomAmount() {
+    const amount = parseFloat(document.getElementById('customAmountField').value);
+    
+    if (!amount || amount < 1) {
+        alert('Please enter a valid amount (minimum $1)');
+        return;
+    }
+    
+    currentDonationAmount = amount;
+    currentDonationPurpose = 'General Donation';
+    
+    document.getElementById('modalAmount').textContent = '$' + amount;
+    
+    // Switch from custom input to payment methods
+    document.getElementById('customAmountInput').style.display = 'none';
+    document.getElementById('paymentMethods').style.display = 'block';
+}
+
+// === Close Donation Modal ===
+function closeDonateModal() {
+    document.getElementById('donationModal').classList.remove('active');
+    document.body.style.overflow = 'auto';
+    
+    // Reset modal state
+    setTimeout(() => {
+        document.getElementById('customAmountInput').style.display = 'none';
+        document.getElementById('paymentMethods').style.display = 'block';
+        const existingBank = document.querySelector('.bank-details-info');
+        if (existingBank) existingBank.remove();
+    }, 300);
+}
+
+// Close modal on Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeDonateModal();
+});
+
+// === Flutterwave Payment Function ===
+function payWithFlutterwave() {
+    // ⚠️ PASTE YOUR FLUTTERWAVE PUBLIC KEY BELOW
+    // Get it from: https://dashboard.flutterwave.com/settings/apis
+    const FLUTTERWAVE_PUBLIC_KEY = "FLWPUBK_TEST-0025bfa9bde75477238abbbb9f18e53d-X";
+    
+    // Safety check - make sure key is set
+    if (!FLUTTERWAVE_PUBLIC_KEY || FLUTTERWAVE_PUBLIC_KEY.includes("YOUR-PUBLIC-KEY-HERE")) {
+        alert("⚠️ Payment system is being configured. Please try Bank Transfer for now.");
+        return;
+    }
+    
+    FlutterwaveCheckout({
+        public_key: FLUTTERWAVE_PUBLIC_KEY,
+        tx_ref: "dloveofthehelpers-" + Date.now(),
+        amount: currentDonationAmount,
+        currency: "USD",
+        payment_options: "card, banktransfer, ussd",
+        customer: {
+            email: "donor@dloveofthehelpers.org",
+            name: "Generous Donor",
+        },
+        customizations: {
+            title: "Dloveofthehelpers",
+            description: "Donation for " + currentDonationPurpose,
+            logo: "",
+        },
+        callback: function(response) {
+            console.log("Payment Response:", response);
+            if (response.status === "successful" || response.status === "completed") {
+                showNotification('🎉 Thank you! Your donation was successful. God bless you!', 'success');
+                closeDonateModal();
+            } else {
+                showNotification('Payment was not completed. Please try again.', 'error');
+            }
+        },
+        onclose: function() {
+            console.log("Payment window closed by user");
+        },
+    });
+}
+
+// === Show Bank Transfer Details ===
+function showBankDetails() {
+    const paymentMethods = document.getElementById('paymentMethods');
+    
+    // Check if already showing - toggle off
+    const existing = document.querySelector('.bank-details-info');
+    if (existing) {
+        existing.remove();
+        return;
+    }
+    
+    const bankInfo = document.createElement('div');
+    bankInfo.className = 'bank-details-info';
+    bankInfo.innerHTML = `
+        <h4><i class="fas fa-university"></i> Bank Transfer Details</h4>
+        <div class="bank-detail-row">
+            <span>Bank Name:</span>
+            <strong>First Bank Nigeria</strong>
+        </div>
+        <div class="bank-detail-row">
+            <span>Account Name:</span>
+            <strong>Dloveofthehelpers Foundation</strong>
+        </div>
+        <div class="bank-detail-row">
+            <span>Account Number:</span>
+            <strong>XXXX-XXXX-XXXX 
+                <button class="copy-btn" onclick="copyToClipboard('XXXXXXXXXX', this)">Copy</button>
+            </strong>
+        </div>
+        <div class="bank-detail-row">
+            <span>SWIFT Code:</span>
+            <strong>FBNINGLA</strong>
+        </div>
+        <div class="bank-detail-row">
+            <span>Amount:</span>
+            <strong>$${currentDonationAmount}</strong>
+        </div>
+        <div class="bank-detail-row">
+            <span>Reference:</span>
+            <strong>${currentDonationPurpose}</strong>
+        </div>
+        <div style="margin-top: 15px; font-size: 13px; color: #666; padding-top: 10px; border-top: 1px dashed #ddd;">
+            <i class="fas fa-info-circle" style="color: var(--primary);"></i> 
+            After transfer, please email proof to <strong>info@dloveofthehelpers.org</strong>
+        </div>
+    `;
+    
+    paymentMethods.appendChild(bankInfo);
+}
+
+// === Copy to Clipboard Helper ===
+function copyToClipboard(text, button) {
+    navigator.clipboard.writeText(text).then(function() {
+        const originalText = button.textContent;
+        button.textContent = '✓ Copied!';
+        button.style.background = '#27ae60';
+        setTimeout(() => {
+            button.textContent = originalText;
+            button.style.background = '';
+        }, 2000);
+    });
+}
+
+// === Notification System ===
+function showNotification(message, type = 'success') {
+    const existing = document.querySelector('.notification');
+    if (existing) existing.remove();
+    
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.innerHTML = `
+        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+        <span>${message}</span>
+        <button class="notification-close">&times;</button>
+    `;
+    
+    Object.assign(notification.style, {
+        position: 'fixed',
+        top: '100px',
+        right: '20px',
+        background: type === 'success' ? '#27ae60' : '#e74c3c',
+        color: 'white',
+        padding: '16px 24px',
+        borderRadius: '10px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '12px',
+        zIndex: '10001',
+        boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
+        animation: 'slideInRight 0.3s ease',
+        maxWidth: '400px',
+        fontFamily: "'Poppins', sans-serif",
+        fontSize: '14px'
+    });
+    
+    if (!document.querySelector('#notificationStyles')) {
+        const style = document.createElement('style');
+        style.id = 'notificationStyles';
+        style.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOutRight {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+            .notification-close {
+                background: none;
+                border: none;
+                color: white;
+                font-size: 20px;
+                cursor: pointer;
+                padding: 0 0 0 10px;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    document.body.appendChild(notification);
+    
+    notification.querySelector('.notification-close').addEventListener('click', () => {
+        notification.style.animation = 'slideOutRight 0.3s ease';
+        setTimeout(() => notification.remove(), 300);
+    });
+    
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.style.animation = 'slideOutRight 0.3s ease';
+            setTimeout(() => notification.remove(), 300);
+        }
+    }, 5000);
+}
