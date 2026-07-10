@@ -1,6 +1,6 @@
 /* ============================================
-   HOPE RISING FOUNDATION - REDESIGNED
-   Inspired by Hopenest Design
+   DLOVEOFTHEHELPERS - CHARITY WEBSITE
+   Complete Stylesheet with Payment Modal
    ============================================ */
 
 * {
@@ -1158,6 +1158,22 @@ h1, h2, h3, h4 {
     color: var(--primary);
 }
 
+/* === Custom Donate === */
+.custom-donate {
+    text-align: center;
+    margin-top: 50px;
+    padding: 30px;
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.custom-donate p {
+    color: var(--gray);
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
 /* === Testimonials === */
 .testimonials {
     background: var(--white);
@@ -1637,6 +1653,334 @@ h1, h2, h3, h4 {
     background: var(--primary-dark);
 }
 
+/* ============================================
+   DONATION MODAL STYLES
+   ============================================ */
+
+.donation-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.donation-modal.active {
+    display: flex;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    position: relative;
+    background: var(--white);
+    border-radius: var(--radius);
+    max-width: 550px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slideUp 0.4s ease;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: var(--cream);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--dark);
+    font-size: 16px;
+    transition: var(--transition);
+    z-index: 2;
+}
+
+.modal-close:hover {
+    background: var(--primary);
+    color: var(--white);
+    transform: rotate(90deg);
+}
+
+.modal-header {
+    padding: 40px 40px 20px;
+    text-align: center;
+    background: linear-gradient(135deg, var(--cream) 0%, #fff 100%);
+    border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.modal-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, var(--primary), var(--accent-yellow));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: var(--white);
+    font-size: 28px;
+    animation: heartBeat 1.5s ease infinite;
+}
+
+@keyframes heartBeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.modal-header h2 {
+    font-size: 26px;
+    margin-bottom: 10px;
+    font-family: 'Playfair Display', serif;
+}
+
+.modal-header p {
+    color: var(--gray);
+    font-size: 15px;
+}
+
+.modal-header strong {
+    color: var(--primary);
+    font-size: 20px;
+}
+
+/* Custom Amount Input */
+.custom-amount-input {
+    padding: 30px 40px;
+    background: var(--cream);
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.custom-amount-input label {
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 12px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.amount-input-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.currency-symbol {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary);
+    font-size: 20px;
+    font-weight: 700;
+}
+
+#customAmountField {
+    width: 100%;
+    padding: 15px 20px 15px 45px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    background: var(--white);
+    transition: var(--transition);
+}
+
+#customAmountField:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.payment-methods {
+    padding: 30px 40px;
+}
+
+.payment-methods h3 {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: var(--gray);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    padding: 20px;
+    background: var(--white);
+    border: 2px solid #f0f0f0;
+    border-radius: 15px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    text-align: left;
+    font-family: 'Poppins', sans-serif;
+}
+
+.payment-option:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(240, 90, 40, 0.15);
+}
+
+.payment-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.payment-option.flutterwave .payment-icon {
+    background: linear-gradient(135deg, #f5a623, #ff8c00);
+}
+
+.payment-option.bank .payment-icon {
+    background: linear-gradient(135deg, var(--secondary), var(--secondary-light));
+}
+
+.payment-details {
+    flex: 1;
+}
+
+.payment-details h4 {
+    font-size: 16px;
+    color: var(--dark);
+    margin-bottom: 4px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+}
+
+.payment-details p {
+    font-size: 13px;
+    color: var(--gray);
+    margin: 0;
+}
+
+.payment-option > i:last-child {
+    color: var(--primary);
+    font-size: 16px;
+    transition: var(--transition);
+}
+
+.payment-option:hover > i:last-child {
+    transform: translateX(5px);
+}
+
+.modal-footer {
+    padding: 20px 40px 30px;
+    text-align: center;
+    border-top: 1px solid #f0f0f0;
+    background: var(--cream);
+    border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.modal-footer p {
+    color: var(--gray);
+    font-size: 13px;
+}
+
+.modal-footer i {
+    color: var(--primary);
+    margin-right: 5px;
+}
+
+/* Bank Details Info */
+.bank-details-info {
+    background: var(--cream);
+    padding: 25px;
+    border-radius: 15px;
+    margin-top: 15px;
+    animation: slideUp 0.4s ease;
+}
+
+.bank-details-info h4 {
+    color: var(--primary);
+    margin-bottom: 15px;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.bank-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px dashed #ddd;
+    font-size: 14px;
+    gap: 15px;
+}
+
+.bank-detail-row:last-child {
+    border-bottom: none;
+}
+
+.bank-detail-row span {
+    color: var(--gray);
+}
+
+.bank-detail-row strong {
+    color: var(--dark);
+    text-align: right;
+}
+
+.copy-btn {
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    padding: 4px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 11px;
+    margin-left: 8px;
+    transition: var(--transition);
+}
+
+.copy-btn:hover {
+    background: var(--primary-dark);
+}
+
 /* === Responsive === */
 @media (max-width: 1024px) {
     .hero h1 {
@@ -1820,6 +2164,19 @@ h1, h2, h3, h4 {
         flex-direction: column;
         align-items: flex-start;
         gap: 20px;
+    }
+    
+    /* Modal Responsive */
+    .modal-header,
+    .payment-methods,
+    .modal-footer,
+    .custom-amount-input {
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+    
+    .modal-header h2 {
+        font-size: 22px;
     }
 }
 

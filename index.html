@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hope Rising Foundation - Help Children In Need Find Hope</title>
+    <meta name="description" content="Dloveofthehelpers - A Nigerian charity dedicated to providing shelter, education, healthcare, and love to orphaned and vulnerable children.">
+    <title>Dloveofthehelpers - Help Children In Need Find Hope</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
@@ -15,7 +16,7 @@
         <div class="container">
             <div class="top-bar-left">
                 <span><i class="fas fa-map-marker-alt"></i> Lagos, Nigeria</span>
-                <span><i class="fas fa-envelope"></i> info@hoperisingfoundation.org</span>
+                <span><i class="fas fa-envelope"></i> info@dloveofthehelpers.org</span>
             </div>
             <div class="top-bar-right">
                 <span>Visit Our Social Pages</span>
@@ -34,7 +35,7 @@
         <div class="container">
             <a href="#" class="logo">
                 <div class="logo-icon"><i class="fas fa-hand-holding-heart"></i></div>
-                <span>Hope<strong>Rising</strong></span>
+                <span>Dloveofthe<strong>helpers</strong></span>
             </a>
             <ul class="nav-links" id="navLinks">
                 <li><a href="#home" class="active">Home</a></li>
@@ -72,8 +73,8 @@
                     <h1>Help Children In <br>Need Find <span class="text-accent">Hope</span></h1>
                     <p class="hero-description">
                         Every child deserves love, care, and a chance at a brighter future. 
-                        Join us in providing shelter, education, and hope to orphaned and 
-                        vulnerable children across Nigeria.
+                        Join Dloveofthehelpers in providing shelter, education, and hope to 
+                        orphaned and vulnerable children across Nigeria.
                     </p>
                     <div class="hero-buttons">
                         <a href="#donate" class="btn btn-primary">
@@ -199,9 +200,9 @@
                         </div>
                     </div>
                     <p class="about-text">
-                        To ensure every child receives nutritious food and a safe learning environment, 
-                        empowering them to build a healthier and more educated future for themselves 
-                        and their communities.
+                        Dloveofthehelpers is committed to ensuring every child receives nutritious food 
+                        and a safe learning environment, empowering them to build a healthier and more 
+                        educated future for themselves and their communities.
                     </p>
                     <div class="about-footer">
                         <a href="#contact" class="btn btn-primary">
@@ -242,7 +243,9 @@
                                 <span>Goal: <strong>$25,000</strong></span>
                             </div>
                         </div>
-                        <a href="#donate" class="btn btn-outline">Donate Now <i class="fas fa-arrow-right"></i></a>
+                        <button class="btn btn-outline" onclick="openDonateModal(100, 'Build A School For Rural Children')">
+                            Donate Now <i class="fas fa-arrow-right"></i>
+                        </button>
                     </div>
                 </div>
                 <div class="campaign-card">
@@ -262,7 +265,9 @@
                                 <span>Goal: <strong>$10,000</strong></span>
                             </div>
                         </div>
-                        <a href="#donate" class="btn btn-outline">Donate Now <i class="fas fa-arrow-right"></i></a>
+                        <button class="btn btn-outline" onclick="openDonateModal(50, 'Feed 500 Children')">
+                            Donate Now <i class="fas fa-arrow-right"></i>
+                        </button>
                     </div>
                 </div>
                 <div class="campaign-card">
@@ -282,7 +287,9 @@
                                 <span>Goal: <strong>$10,000</strong></span>
                             </div>
                         </div>
-                        <a href="#donate" class="btn btn-outline">Donate Now <i class="fas fa-arrow-right"></i></a>
+                        <button class="btn btn-outline" onclick="openDonateModal(75, 'Medical Care For Orphaned Kids')">
+                            Donate Now <i class="fas fa-arrow-right"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -296,7 +303,7 @@
                 <div class="volunteers-content">
                     <p class="section-tag light"><span class="tag-dot"></span> Join The Movement</p>
                     <h2>Volunteers Making a <br>Difference in <span class="text-yellow">Lives</span></h2>
-                    <p>Our volunteers are the heart of our organization. Join hundreds of passionate individuals worldwide who are making a real difference in the lives of vulnerable children.</p>
+                    <p>Our volunteers are the heart of Dloveofthehelpers. Join hundreds of passionate individuals worldwide who are making a real difference in the lives of vulnerable children.</p>
                     <div class="volunteer-stats">
                         <div class="v-stat">
                             <h3 data-count="50">0</h3>
@@ -350,7 +357,9 @@
                         <li><i class="fas fa-check"></i> Healthy snacks</li>
                         <li><i class="fas fa-check"></i> Clean drinking water</li>
                     </ul>
-                    <a href="#" class="btn btn-primary btn-full">Donate $25</a>
+                    <button class="btn btn-primary btn-full" onclick="openDonateModal(25, 'Feed A Child')">
+                        Donate $25 <i class="fas fa-heart"></i>
+                    </button>
                 </div>
                 <div class="donate-card featured">
                     <div class="featured-badge">Most Popular</div>
@@ -364,7 +373,9 @@
                         <li><i class="fas fa-check"></i> School uniform</li>
                         <li><i class="fas fa-check"></i> Tutorial support</li>
                     </ul>
-                    <a href="#" class="btn btn-primary btn-full">Donate $50</a>
+                    <button class="btn btn-primary btn-full" onclick="openDonateModal(50, 'Educate A Child')">
+                        Donate $50 <i class="fas fa-heart"></i>
+                    </button>
                 </div>
                 <div class="donate-card">
                     <div class="donate-icon"><i class="fas fa-hand-holding-heart"></i></div>
@@ -376,8 +387,18 @@
                         <li><i class="fas fa-check"></i> Monthly updates</li>
                         <li><i class="fas fa-check"></i> Direct communication</li>
                     </ul>
-                    <a href="#" class="btn btn-primary btn-full">Donate $100</a>
+                    <button class="btn btn-primary btn-full" onclick="openDonateModal(100, 'Sponsor A Child')">
+                        Donate $100 <i class="fas fa-heart"></i>
+                    </button>
                 </div>
+            </div>
+            
+            <!-- Custom Amount Option -->
+            <div class="custom-donate">
+                <p>Want to donate a different amount?</p>
+                <button class="btn btn-outline" onclick="openCustomDonateModal()">
+                    <i class="fas fa-heart"></i> Choose Custom Amount
+                </button>
             </div>
         </div>
     </section>
@@ -395,7 +416,7 @@
                     <div class="testimonial-stars">
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
-                    <p>"Hope Rising has given my sponsored child a life she never dreamed possible. The regular updates and transparency give me complete confidence."</p>
+                    <p>"Dloveofthehelpers has given my sponsored child a life she never dreamed possible. The regular updates and transparency give me complete confidence."</p>
                     <div class="testimonial-author">
                         <div class="author-avatar">SJ</div>
                         <div>
@@ -409,7 +430,7 @@
                     <div class="testimonial-stars">
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
-                    <p>"Volunteering with Hope Rising was life-changing. Seeing the children's faces light up and knowing real change is happening is incredibly rewarding."</p>
+                    <p>"Volunteering with Dloveofthehelpers was life-changing. Seeing the children's faces light up and knowing real change is happening is incredibly rewarding."</p>
                     <div class="testimonial-author">
                         <div class="author-avatar">MC</div>
                         <div>
@@ -423,7 +444,7 @@
                     <div class="testimonial-stars">
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
-                    <p>"As a church group, we've partnered with Hope Rising for two years. Their dedication and integrity in managing resources is truly exemplary."</p>
+                    <p>"As a church group, we've partnered with Dloveofthehelpers for two years. Their dedication and integrity in managing resources is truly exemplary."</p>
                     <div class="testimonial-author">
                         <div class="author-avatar">DW</div>
                         <div>
@@ -516,7 +537,7 @@
                     <div class="contact-info-card">
                         <div class="ci-icon"><i class="fas fa-envelope"></i></div>
                         <h4>Email Us</h4>
-                        <p>info@hoperisingfoundation.org</p>
+                        <p>info@dloveofthehelpers.org</p>
                     </div>
                     <div class="contact-info-card">
                         <div class="ci-icon"><i class="fas fa-phone"></i></div>
@@ -547,7 +568,7 @@
                 <div class="footer-col">
                     <div class="footer-logo">
                         <div class="logo-icon"><i class="fas fa-hand-holding-heart"></i></div>
-                        <span>Hope<strong>Rising</strong></span>
+                        <span>Dloveofthe<strong>helpers</strong></span>
                     </div>
                     <p>Giving orphaned and vulnerable children in Nigeria a chance at a brighter future through love, care, education, and empowerment.</p>
                     <div class="footer-social">
@@ -571,7 +592,7 @@
                     <h4>Contact Info</h4>
                     <ul class="footer-contact">
                         <li><i class="fas fa-map-marker-alt"></i> Lagos, Nigeria</li>
-                        <li><i class="fas fa-envelope"></i> info@hoperisingfoundation.org</li>
+                        <li><i class="fas fa-envelope"></i> info@dloveofthehelpers.org</li>
                         <li><i class="fas fa-phone"></i> +234 XXX XXX XXXX</li>
                         <li><i class="fas fa-clock"></i> Mon - Sat: 8AM - 6PM</li>
                     </ul>
@@ -586,7 +607,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 Hope Rising Foundation. All Rights Reserved. | Registered NGO in Nigeria</p>
+                <p>&copy; 2026 Dloveofthehelpers. All Rights Reserved. | Registered NGO in Nigeria</p>
             </div>
         </div>
     </footer>
@@ -596,6 +617,69 @@
         <i class="fas fa-arrow-up"></i>
     </button>
 
+    <!-- ============================================ -->
+    <!-- DONATION MODAL - Payment Options -->
+    <!-- ============================================ -->
+    <div class="donation-modal" id="donationModal">
+        <div class="modal-overlay" onclick="closeDonateModal()"></div>
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeDonateModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-header">
+                <div class="modal-icon"><i class="fas fa-heart"></i></div>
+                <h2>Complete Your Donation</h2>
+                <p>You are donating <strong id="modalAmount">$25</strong> for <span id="modalPurpose">Feed A Child</span></p>
+            </div>
+            
+            <!-- Custom Amount Input (hidden by default) -->
+            <div class="custom-amount-input" id="customAmountInput" style="display: none;">
+                <label>Enter Amount (USD)</label>
+                <div class="amount-input-wrapper">
+                    <span class="currency-symbol">$</span>
+                    <input type="number" id="customAmountField" placeholder="Enter amount" min="1" value="10">
+                </div>
+                <button class="btn btn-primary btn-full" onclick="updateCustomAmount()">
+                    Continue <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            
+            <div class="payment-methods" id="paymentMethods">
+                <h3>Choose Payment Method</h3>
+                
+                <!-- Flutterwave (International Cards - PRIMARY) -->
+                <button class="payment-option flutterwave" onclick="payWithFlutterwave()">
+                    <div class="payment-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="payment-details">
+                        <h4>Credit / Debit Card</h4>
+                        <p>Visa, Mastercard, Amex — Recommended</p>
+                    </div>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                
+                <!-- Bank Transfer -->
+                <button class="payment-option bank" onclick="showBankDetails()">
+                    <div class="payment-icon">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <div class="payment-details">
+                        <h4>Bank Transfer</h4>
+                        <p>Wire transfer or ACH</p>
+                    </div>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            
+            <div class="modal-footer">
+                <p><i class="fas fa-lock"></i> All donations are secure and encrypted</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Flutterwave Script -->
+    <script src="https://checkout.flutterwave.com/v3.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
