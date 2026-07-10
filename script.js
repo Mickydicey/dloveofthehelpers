@@ -244,46 +244,55 @@ document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeDonateModal();
 });
 
-// === Flutterwave Payment Function ===
-function payWithFlutterwave() {
-    // ⚠️ PASTE YOUR FLUTTERWAVE PUBLIC KEY BELOW
-    // Get it from: https://dashboard.flutterwave.com/settings/apis
-    const FLUTTERWAVE_PUBLIC_KEY = "FLWPUBK_TEST-0025bfa9bde75477238abbbb9f18e53d-X";
+// === Flutterwave Payment Function (UPDATED - Live & Secure) ===
+async function payWithFlutterwave() {
     
-    // Safety check - make sure key is set
-    if (!FLUTTERWAVE_PUBLIC_KEY || FLUTTERWAVE_PUBLIC_KEY.includes("YOUR-PUBLIC-KEY-HERE")) {
-        alert("⚠️ Payment system is being configured. Please try Bank Transfer for now.");
-        return;
+    // Show loading state on button
+    const btn = document.querySelector('.payment-option.flutterwave');
+    const originalHTML = btn.innerHTML;
+    btn.innerHTML = `
+        <div class="payment-icon" style="background: linear-gradient(135deg, #f5a623, #ff8c00);">
+            <i class="fas fa-spinner fa-spin"></i>
+        </div>
+        <div class="payment-details">
+            <h4>Processing...</h4>
+            <p>Please wait</p>
+        </div>
+    `;
+    btn.disabled = true;
+    
+    try {
+        // Call our secure backend instead of Flutterwave directly
+        const response = await fetch('/api/initialize-payment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                amount: currentDonationAmount,
+                purpose: currentDonationPurpose,
+                email: 'donor@dloveofthehelpers.org',
+                name: 'Generous Donor',
+            }),
+        });
+        
+        const data = await response.json();
+        
+        if (data.status === 'success' && data.payment_link) {
+            // Redirect donor to Flutterwave payment page
+            window.location.href = data.payment_link;
+        } else {
+            throw new Error(data.error || 'Payment initialization failed');
+        }
+        
+    } catch (error) {
+        console.error('Payment Error:', error);
+        showNotification('⚠️ Payment failed: ' + error.message + '. Please try Bank Transfer.', 'error');
+        
+        // Restore button
+        btn.innerHTML = originalHTML;
+        btn.disabled = false;
     }
-    
-    FlutterwaveCheckout({
-        public_key: FLUTTERWAVE_PUBLIC_KEY,
-        tx_ref: "dloveofthehelpers-" + Date.now(),
-        amount: currentDonationAmount,
-        currency: "USD",
-        payment_options: "card, banktransfer, ussd",
-        customer: {
-            email: "donor@dloveofthehelpers.org",
-            name: "Generous Donor",
-        },
-        customizations: {
-            title: "Dloveofthehelpers",
-            description: "Donation for " + currentDonationPurpose,
-            logo: "",
-        },
-        callback: function(response) {
-            console.log("Payment Response:", response);
-            if (response.status === "successful" || response.status === "completed") {
-                showNotification('🎉 Thank you! Your donation was successful. God bless you!', 'success');
-                closeDonateModal();
-            } else {
-                showNotification('Payment was not completed. Please try again.', 'error');
-            }
-        },
-        onclose: function() {
-            console.log("Payment window closed by user");
-        },
-    });
 }
 
 // === Show Bank Transfer Details ===

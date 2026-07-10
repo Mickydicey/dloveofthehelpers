@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You | Dloveofthehelpers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1a5f3f 0%, #0f3d28 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .success-card {
+            background: white;
+            border-radius: 25px;
+            padding: 60px 50px;
+            text-align: center;
+            max-width: 550px;
+            width: 100%;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+            animation: slideUp 0.6s ease;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(40px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #f05a28, #f5b942);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 45px;
+            color: white;
+            animation: heartBeat 1.5s ease infinite;
+        }
+        
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            color: #1a1a2e;
+            margin-bottom: 15px;
+        }
+        
+        .accent { color: #f05a28; }
+        
+        p {
+            color: #6c757d;
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+        
+        .status-box {
+            background: #f8f9f5;
+            border-radius: 15px;
+            padding: 20px 25px;
+            margin: 25px 0;
+            border-left: 4px solid #f05a28;
+            text-align: left;
+        }
+        
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 14px;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+        
+        .status-row:last-child { border-bottom: none; }
+        .status-row span { color: #6c757d; }
+        .status-row strong { color: #1a1a2e; }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 35px;
+            background: #f05a28;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            background: #d84a1e;
+            transform: translateY(-3px);
+        }
+        
+        .social-share {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .social-share p {
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .share-btns {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        
+        .share-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+        
+        .share-btn:hover { transform: translateY(-3px); }
+        .share-btn.facebook { background: #1877f2; }
+        .share-btn.twitter { background: #1da1f2; }
+        .share-btn.whatsapp { background: #25d366; }
+    </style>
+</head>
+<body>
+    <div class="success-card">
+        <div class="success-icon">
+            <i class="fas fa-heart"></i>
+        </div>
+        
+        <h1>Thank You for Your <span class="accent">Generosity!</span></h1>
+        
+        <p>
+            Your donation has been received and will directly impact 
+            the lives of orphaned and vulnerable children in Nigeria. 
+            <strong>God bless you!</strong>
+        </p>
+        
+        <!-- Payment status will be filled by JS -->
+        <div class="status-box" id="statusBox">
+            <div class="status-row">
+                <span>Status:</span>
+                <strong id="payStatus" style="color: #27ae60;">
+                    <i class="fas fa-check-circle"></i> Successful
+                </strong>
+            </div>
+            <div class="status-row">
+                <span>Transaction Ref:</span>
+                <strong id="txRef">Processing...</strong>
+            </div>
+            <div class="status-row">
+                <span>Organization:</span>
+                <strong>Dloveofthehelpers</strong>
+            </div>
+        </div>
+        
+        <p>
+            A confirmation email will be sent to you. 
+            For questions contact us at 
+            <strong>info@dloveofthehelpers.org</strong>
+        </p>
+        
+        <a href="index.html" class="btn">
+            <i class="fas fa-home"></i> Back to Home
+        </a>
+        
+        <div class="social-share">
+            <p>Help spread the word — share with friends & family:</p>
+            <div class="share-btns">
+                <a href="https://facebook.com/sharer/sharer.php?u=https://dloveofthehelpers.vercel.app" 
+                   target="_blank" class="share-btn facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://twitter.com/intent/tweet?text=I just donated to Dloveofthehelpers! Join me in helping orphaned children in Nigeria. &url=https://dloveofthehelpers.vercel.app" 
+                   target="_blank" class="share-btn twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="https://wa.me/?text=I just donated to Dloveofthehelpers to help orphaned children in Nigeria! You can too: https://dloveofthehelpers.vercel.app" 
+                   target="_blank" class="share-btn whatsapp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Read URL params from Flutterwave redirect
+        const params = new URLSearchParams(window.location.search);
+        const status = params.get('status');
+        const txRef = params.get('tx_ref');
+        const transactionId = params.get('transaction_id');
+        
+        // Update status display
+        if (txRef) {
+            document.getElementById('txRef').textContent = txRef;
+        }
+        
+        if (status === 'cancelled') {
+            document.getElementById('payStatus').innerHTML = 
+                '<i class="fas fa-times-circle" style="color:#e74c3c"></i> Cancelled';
+            document.getElementById('payStatus').style.color = '#e74c3c';
+        }
+    </script>
+</body>
+</html>
