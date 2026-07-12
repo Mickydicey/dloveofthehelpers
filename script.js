@@ -1,6 +1,6 @@
 // ============================================
-// DLOVEOFTHEHELPERS - JAVASCRIPT
-// With Flutterwave Payment Integration
+// DLOVEOFTHEHELPERS - COMPLETE JAVASCRIPT
+// With Secure Paystack Payment Integration
 // ============================================
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -17,23 +17,27 @@ document.addEventListener('DOMContentLoaded', function() {
         updateActiveNavLink();
     });
     
-    backToTop.addEventListener('click', function() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    if (backToTop) {
+        backToTop.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
     
     // === Mobile Menu ===
     const hamburger = document.getElementById('hamburger');
     const navLinks = document.getElementById('navLinks');
     
-    hamburger.addEventListener('click', function() {
-        navLinks.classList.toggle('active');
-    });
-    
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', function() {
-            navLinks.classList.remove('active');
+    if (hamburger && navLinks) {
+        hamburger.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
         });
-    });
+        
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function() {
+                navLinks.classList.remove('active');
+            });
+        });
+    }
     
     // === Active Nav Link ===
     function updateActiveNavLink() {
@@ -166,8 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 // ============================================
-// ============================================
-// DONATION MODAL & FLUTTERWAVE - IMPROVED
+// DONATION MODAL & PAYSTACK INTEGRATION
 // ============================================
 
 // Global variables
@@ -181,20 +184,16 @@ function openDonateModal(amount, purpose) {
     currentDonationAmount = amount;
     currentDonationPurpose = purpose;
 
-    // Update display
     document.getElementById('modalAmount').textContent = '$' + amount;
     document.getElementById('modalPurpose').textContent = purpose;
     document.getElementById('modalAmount2').textContent = '$' + amount;
     document.getElementById('modalPurpose2').textContent = purpose;
 
-    // Hide custom amount, show donor form
     document.getElementById('customAmountInput').style.display = 'none';
     document.getElementById('donorForm').style.display = 'block';
 
-    // Show Step 1
     showStep('stepDetails');
 
-    // Open modal
     document.getElementById('donationModal').classList.add('active');
     document.body.style.overflow = 'hidden';
 }
@@ -204,7 +203,6 @@ function openCustomDonateModal() {
     document.getElementById('modalAmount').textContent = '$0';
     document.getElementById('modalPurpose').textContent = 'General Donation';
 
-    // Show custom amount input
     document.getElementById('customAmountInput').style.display = 'block';
     document.getElementById('donorForm').style.display = 'block';
 
@@ -216,21 +214,18 @@ function openCustomDonateModal() {
 
 // === Show a Step ===
 function showStep(stepId) {
-    // Hide all steps
     document.querySelectorAll('.modal-step').forEach(step => {
         step.style.display = 'none';
     });
 
-    // Show requested step
-    document.getElementById(stepId).style.display = 'block';
+    const stepEl = document.getElementById(stepId);
+    if (stepEl) stepEl.style.display = 'block';
 }
 
 // === Proceed to Payment (validate first) ===
 function proceedToPayment() {
-
-    // If custom amount, validate it first
     const customInput = document.getElementById('customAmountInput');
-    if (customInput.style.display !== 'none') {
+    if (customInput && customInput.style.display !== 'none') {
         const amount = parseFloat(document.getElementById('customAmountField').value);
         if (!amount || amount < 1) {
             showInputError('customAmountField', 'Please enter a valid amount (minimum $1)');
@@ -242,7 +237,6 @@ function proceedToPayment() {
         document.getElementById('modalPurpose2').textContent = 'General Donation';
     }
 
-    // Validate name
     const nameInput = document.getElementById('donorName');
     const name = nameInput.value.trim();
     if (!name) {
@@ -251,7 +245,6 @@ function proceedToPayment() {
         return;
     }
 
-    // Validate email
     const emailInput = document.getElementById('donorEmail');
     const email = emailInput.value.trim();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -261,21 +254,17 @@ function proceedToPayment() {
         return;
     }
 
-    // Save donor details
     donorName = name;
     donorEmail = email;
 
-    // Update amount display on step 2
     document.getElementById('modalAmount2').textContent = '$' + currentDonationAmount;
     document.getElementById('modalPurpose2').textContent = currentDonationPurpose;
 
-    // Go to payment step
     showStep('stepPayment');
 }
 
 // === Show Input Error ===
 function showInputError(inputId, message) {
-    // Remove existing error
     const existing = document.querySelector('.input-error-msg');
     if (existing) existing.remove();
 
@@ -287,13 +276,11 @@ function showInputError(inputId, message) {
     errorMsg.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
     input.parentNode.appendChild(errorMsg);
 
-    // Remove error on input
     input.addEventListener('input', function() {
         input.classList.remove('error');
         if (errorMsg.parentNode) errorMsg.remove();
     }, { once: true });
 
-    // Shake animation
     input.style.animation = 'shake 0.4s ease';
     setTimeout(() => input.style.animation = '', 400);
 }
@@ -305,37 +292,41 @@ function goBackToDetails() {
 
 // === Close Donation Modal ===
 function closeDonateModal() {
-    document.getElementById('donationModal').classList.remove('active');
+    const modal = document.getElementById('donationModal');
+    if (modal) modal.classList.remove('active');
     document.body.style.overflow = 'auto';
 
-    // Reset everything after animation
     setTimeout(() => {
         showStep('stepDetails');
-        document.getElementById('donorName').value = '';
-        document.getElementById('donorEmail').value = '';
-        document.getElementById('donorName').classList.remove('error');
-        document.getElementById('donorEmail').classList.remove('error');
-        document.getElementById('paymentMethods').style.display = 'block';
-        document.getElementById('paymentLoading').style.display = 'none';
+        const donorNameEl = document.getElementById('donorName');
+        const donorEmailEl = document.getElementById('donorEmail');
+        if (donorNameEl) {
+            donorNameEl.value = '';
+            donorNameEl.classList.remove('error');
+        }
+        if (donorEmailEl) {
+            donorEmailEl.value = '';
+            donorEmailEl.classList.remove('error');
+        }
+        
+        const paymentMethodsEl = document.getElementById('paymentMethods');
+        const paymentLoadingEl = document.getElementById('paymentLoading');
+        if (paymentMethodsEl) paymentMethodsEl.style.display = 'block';
+        if (paymentLoadingEl) paymentLoadingEl.style.display = 'none';
 
-        // Remove any error messages
         document.querySelectorAll('.input-error-msg').forEach(el => el.remove());
 
-        // Remove bank details if showing
         const existingBank = document.querySelector('.bank-details-info');
         if (existingBank) existingBank.remove();
     }, 300);
 }
 
-// Close on Escape key
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeDonateModal();
 });
 
-// === Paystack Payment Function ===
+// === Paystack Payment Function (Calls secure backend) ===
 async function payWithFlutterwave() {
-
-    // Show loading state
     document.getElementById('paymentMethods').style.display = 'none';
     document.getElementById('paymentLoading').style.display = 'block';
 
@@ -356,32 +347,26 @@ async function payWithFlutterwave() {
         const data = await response.json();
 
         if (data.status === 'success' && data.payment_link) {
-
-            // Save donation info to sessionStorage
             sessionStorage.setItem('donorName', donorName);
             sessionStorage.setItem('donorEmail', donorEmail);
             sessionStorage.setItem('donationAmount', currentDonationAmount);
             sessionStorage.setItem('donationPurpose', currentDonationPurpose);
             sessionStorage.setItem('paymentReference', data.reference);
 
-            // Redirect to Paystack payment page
+            // Redirect user to secure Paystack screen
             window.location.href = data.payment_link;
-
         } else {
+            // Throw exact error returned from server / Paystack
             throw new Error(data.error || 'Payment initialization failed');
         }
 
     } catch (error) {
         console.error('Payment Error:', error);
 
-        // Hide loading show payment methods again
         document.getElementById('paymentLoading').style.display = 'none';
         document.getElementById('paymentMethods').style.display = 'block';
 
-        showNotification(
-            '⚠️ ' + error.message + '. Please try again or use Bank Transfer.',
-            'error'
-        );
+        showNotification('⚠️ ' + error.message, 'error');
     }
 }
 
@@ -389,7 +374,6 @@ async function payWithFlutterwave() {
 function showBankDetails() {
     const paymentMethods = document.getElementById('paymentMethods');
 
-    // Toggle off if already showing
     const existing = document.querySelector('.bank-details-info');
     if (existing) {
         existing.remove();
@@ -447,6 +431,7 @@ function copyToClipboard(text, button) {
         }, 2000);
     });
 }
+
 // === Notification System ===
 function showNotification(message, type = 'success') {
     const existing = document.querySelector('.notification');
