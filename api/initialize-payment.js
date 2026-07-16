@@ -1,40 +1,47 @@
 // api/initialize-payment.js
-// Flutterwave V4 with detailed error logging
+// Flutterwave V4 Live Integration
 
 export default async function handler(req, res) {
 
+    // Only allow POST
     if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Method not allowed' });
-    }
-
-    const clientId = process.env.FLW_CLIENT_ID;
-    const clientSecret = process.env.FLW_CLIENT_SECRET;
-
-    if (!clientId || !clientSecret) {
-        return res.status(500).json({ 
-            error: 'Credentials missing',
-            clientId_exists: !!clientId,
-            clientSecret_exists: !!clientSecret
+        return res.status(405).json({ 
+            error: 'Method not allowed' 
         });
     }
 
+    // Get V4 credentials from Vercel
+    const clientId = process.env.FLW_CLIENT_ID;
+    const clientSecret = process.env.FLW_CLIENT_SECRET;
+
+    // Safety check
+    if (!clientId || !clientSecret) {
+        return res.status(500).json({ 
+            error: 'Payment system not configured' 
+        });
+    }
+
+    // Get donation details from frontend
     const { amount, purpose, email, name } = req.body;
 
+    // Validate inputs
     if (!amount || amount < 1) {
-        return res.status(400).json({ error: 'Invalid amount' });
+        return res.status(400).json({ 
+            error: 'Invalid donation amount' 
+        });
     }
 
     if (!email) {
-        return res.status(400).json({ error: 'Email required' });
+        return res.status(400).json({ 
+            error: 'Email address is required' 
+        });
     }
 
     try {
 
         // ============================================
-        // STEP 1: Get Access Token
+        // STEP 1: Get Access Token from Flutterwave V4
         // ============================================
-        console.log('Getting access token...');
-        
         const tokenResponse = await fetch('https://api.flutterwave.com/v4/token', {
             method: 'POST',
             headers: {
@@ -49,25 +56,21 @@ export default async function handler(req, res) {
 
         const tokenData = await tokenResponse.json();
 
-        console.log('Token Response Status:', tokenResponse.status);
-        console.log('Token Response:', JSON.stringify(tokenData, null, 2));
+        console.log('Token Response:', JSON.stringify(tokenData));
 
+        // If token failed
         if (!tokenData.access_token) {
             return res.status(400).json({
-                error: 'Failed to get access token',
-                status: tokenResponse.status,
-                response: tokenData
+                error: tokenData.message || 'Could not authenticate with Flutterwave',
+                details: tokenData
             });
         }
 
         const accessToken = tokenData.access_token;
-        console.log('Got access token successfully');
 
         // ============================================
-        // STEP 2: Create Payment
+        // STEP 2: Initialize Payment with Access Token
         // ============================================
-        console.log('Creating payment...');
-
         const paymentResponse = await fetch('https://api.flutterwave.com/v4/payments', {
             method: 'POST',
             headers: {
@@ -75,27 +78,33 @@ export default async function handler(req, res) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                tx_ref: 'dlove-' + Date.now(),
+                tx_ref: 'dlove-' + Date.now() + '-' + Math.random().toString(36).substring(2, 7),
                 amount: amount,
                 currency: 'NGN',
                 redirect_url: 'https://dloveofthehelpers.vercel.app/success.html',
                 customer: {
                     email: email,
-                    name: name || 'Anonymous',
+                    name: name || 'Anonymous Donor',
                 },
                 customizations: {
                     title: 'Dloveofthehelpers',
                     description: 'Donation for ' + (purpose || 'General Donation'),
+                    logo: 'https://dloveofthehelpers.vercel.app/logo.png',
                 },
                 payment_options: 'card, banktransfer, ussd',
+                meta: {
+                    donor_name: name || 'Anonymous',
+                    donation_purpose: purpose || 'General Donation',
+                    source: 'website'
+                }
             }),
         });
 
         const paymentData = await paymentResponse.json();
 
-        console.log('Payment Response Status:', paymentResponse.status);
-        console.log('Payment Response:', JSON.stringify(paymentData, null, 2));
+        console.log('Payment Response:', JSON.stringify(paymentData));
 
+        // If payment link created successfully
         if (paymentData.status === 'success' && paymentData.data && paymentData.data.link) {
             return res.status(200).json({
                 status: 'success',
@@ -103,17 +112,15 @@ export default async function handler(req, res) {
             });
         } else {
             return res.status(400).json({
-                error: paymentData.message || 'Payment creation failed',
-                status: paymentResponse.status,
-                response: paymentData
+                error: paymentData.message || 'Could not create payment link',
+                details: paymentData
             });
         }
 
     } catch (error) {
         console.error('Server Error:', error);
         return res.status(500).json({ 
-            error: error.message,
-            stack: error.stack
+            error: 'Server error: ' + error.message
         });
     }
 }
